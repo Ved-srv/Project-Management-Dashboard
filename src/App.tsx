@@ -1,63 +1,67 @@
-import { GitHubBanner, Refine, WelcomePage } from "@refinedev/core";
+import { Authenticated, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import { useNotificationProvider } from "@refinedev/antd";
 import "@refinedev/antd/dist/reset.css";
-
-import dataProvider, {
-  GraphQLClient,
-  liveProvider,
-} from "@refinedev/nestjs-query";
+import { dataProvider, liveProvider, authProvider } from "./providers";
 import routerBindings, {
+  CatchAllNavigate,
   DocumentTitleHandler,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
+import { Home, ForgotPassword, Login, Register } from "./pages";
 import { App as AntdApp } from "antd";
-import { createClient } from "graphql-ws";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { authProvider } from "./authProvider";
-import { ColorModeContextProvider } from "./contexts/color-mode";
-
-const API_URL = "https://api.nestjs-query.refine.dev/graphql";
-const WS_URL = "wss://api.nestjs-query.refine.dev/graphql";
-
-const gqlClient = new GraphQLClient(API_URL);
-const wsClient = createClient({ url: WS_URL });
+import Layout from "./components/layout";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
-        <ColorModeContextProvider>
-          <AntdApp>
-            <DevtoolsProvider>
-              <Refine
-                dataProvider={dataProvider(gqlClient)}
-                liveProvider={liveProvider(wsClient)}
-                notificationProvider={useNotificationProvider}
-                routerProvider={routerBindings}
-                authProvider={authProvider}
-                options={{
-                  syncWithLocation: true,
-                  warnWhenUnsavedChanges: true,
-                  useNewQueryKeys: true,
-                  projectId: "c4PuKU-7EFwpa-LQAnb2",
-                  liveMode: "auto",
-                }}
-              >
-                <Routes>
-                  <Route index element={<WelcomePage />} />
-                </Routes>
-                <RefineKbar />
-                <UnsavedChangesNotifier />
-                <DocumentTitleHandler />
-              </Refine>
-              <DevtoolsPanel />
-            </DevtoolsProvider>
-          </AntdApp>
-        </ColorModeContextProvider>
+        <AntdApp>
+          <DevtoolsProvider>
+            <Refine
+              dataProvider={dataProvider}
+              liveProvider={liveProvider}
+              notificationProvider={useNotificationProvider}
+              routerProvider={routerBindings}
+              authProvider={authProvider}
+              options={{
+                syncWithLocation: true,
+                warnWhenUnsavedChanges: true,
+                useNewQueryKeys: true,
+                projectId: "c4PuKU-7EFwpa-LQAnb2",
+                liveMode: "auto",
+              }}
+            >
+              <Routes>
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route
+                  element={
+                    <Authenticated // Tells if we are authenticated or not
+                      key="authenticated-layout" // Key makes sure that the authenticated component is unique
+                      fallback={<CatchAllNavigate to="/login" />} // if not authenticated then we fall back to login
+                    >
+                      <Layout>
+                        <Outlet />
+                        {/* Outlet component renders the child route of the current route, the child route in this case the whole page is the child of the current route(Authenticated route) */}
+                      </Layout>
+                    </Authenticated>
+                  }
+                >
+                  <Route index element={<Home />} />
+                </Route>
+              </Routes>
+              <RefineKbar />
+              <UnsavedChangesNotifier />
+              <DocumentTitleHandler />
+            </Refine>
+            <DevtoolsPanel />
+          </DevtoolsProvider>
+        </AntdApp>
       </RefineKbarProvider>
     </BrowserRouter>
   );
