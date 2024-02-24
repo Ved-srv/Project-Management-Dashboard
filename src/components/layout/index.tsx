@@ -6,7 +6,7 @@ import Header from "./header";
 const Layout = ({ children }: React.PropsWithChildren) => (
   <ThemedLayoutV2
     Header={Header}
-    Title={(titleProps) => <ThemedTitleV2 {...titleProps} text="AgileHub" />}
+    Title={(titleProps) => <ThemedTitleV2 {...titleProps} text="CSIR" />}
   >
     {children}
   </ThemedLayoutV2>

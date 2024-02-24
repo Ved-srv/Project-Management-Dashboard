@@ -35,13 +35,13 @@ const getGraphQLErrors = (
   }
 
   if ("errors" in body) {
-    const errors = body?.errors; //get the errors
-    const messages = errors?.map((error) => error?.message)?.join(""); //join the errors into a single string
-    const code = errors?.[0].extensions?.code; //get the error code
+    const errors = body?.errors;
+    const messages = errors?.map((error) => error?.message)?.join(", "); // Join messages with a separator for clarity
+    const code = errors?.[0].extensions?.code; // Assume code is a string or undefined
 
     return {
       message: messages || JSON.stringify(errors),
-      statusCode: code || 500,
+      statusCode: code ? code.toString() : "500", // Ensure statusCode is a string
     };
   }
   return null;

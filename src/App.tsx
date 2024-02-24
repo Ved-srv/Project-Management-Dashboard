@@ -10,23 +10,28 @@ import routerBindings, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
+import { resources } from "./config/resources";
 import { Home, ForgotPassword, Login, Register } from "./pages";
 import { App as AntdApp } from "antd";
 import Layout from "./components/layout";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import client from "./apollo-client";
+import { ApolloProvider } from "@apollo/client";
 
 function App() {
   return (
     <BrowserRouter>
       <RefineKbarProvider>
-        <AntdApp>
-          <DevtoolsProvider>
+        <ApolloProvider client={client}>
+          <AntdApp>
+            {/* <DevtoolsProvider> */}
             <Refine
               dataProvider={dataProvider}
               liveProvider={liveProvider}
               notificationProvider={useNotificationProvider}
               routerProvider={routerBindings}
               authProvider={authProvider}
+              resources={resources}
               options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
@@ -59,9 +64,10 @@ function App() {
               <UnsavedChangesNotifier />
               <DocumentTitleHandler />
             </Refine>
-            <DevtoolsPanel />
-          </DevtoolsProvider>
-        </AntdApp>
+            {/* <DevtoolsPanel /> */}
+            {/* </DevtoolsProvider> */}
+          </AntdApp>
+        </ApolloProvider>
       </RefineKbarProvider>
     </BrowserRouter>
   );
