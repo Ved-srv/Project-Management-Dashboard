@@ -1,5 +1,5 @@
 import { AuthBindings } from "@refinedev/core";
-
+import bcrypt from "bcrypt";
 import { API_URL, dataProvider } from "./data";
 
 // For demo purposes and to make it easier to test the app, we can use the following credentials
@@ -154,19 +154,24 @@ export const authProvider: AuthBindings = {
         method: "post",
         headers: {},
         meta: {
-          variables: { email, password },
-          // rawQuery: `
-          //   mutation Register($email: String!, $password: String!) {
-          //     register(registerInput: {email: $email, password: $password}) {
-          //       accessToken
-          //     }
-          //   }
-          // `,
+          variables: {
+            registerInput: {
+              email,
+              password,
+            },
+          },
+          rawQuery: `
+            mutation Register($registerInput: RegisterInput!) {
+              register(registerInput: $registerInput) {
+                    email
+                    name
+              }
+            }
+          `,
         },
       });
 
       localStorage.setItem("access_token", data.register.accessToken);
-
       return {
         success: true,
         redirectTo: "/login",

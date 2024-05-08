@@ -3395,6 +3395,9 @@ export type QuoteUpdateInput = {
 export type RegisterInput = {
   email: Scalars["String"]["input"];
   password: Scalars["String"]["input"];
+  jobTitle?: Maybe<Scalars["String"]["input"]>;
+  name: Scalars["String"]["input"];
+  phone?: Maybe<Scalars["String"]["input"]>;
 };
 
 /** Role */
@@ -4661,6 +4664,8 @@ export type User = {
   timezone?: Maybe<Scalars["String"]["output"]>;
   updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
+  accessToken?: Maybe<Scalars["String"]["output"]>;
+  password: Scalars["String"]["input"];
 };
 
 export type UserCompaniesArgs = {

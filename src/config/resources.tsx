@@ -2,6 +2,7 @@ import {
   DashboardOutlined,
   ProjectOutlined,
   ShopOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { IResourceItem } from "@refinedev/core";
 
@@ -19,6 +20,17 @@ export const resources: IResourceItem[] = [
     },
   },
   {
+    name: "users",
+    list: "/users",
+    create: "/users/new",
+    edit: "/users/edit/:id",
+    meta: {
+      label: "Users",
+      icon: <UserOutlined />,
+    },
+  },
+
+  {
     name: "companies",
     list: "/companies",
     show: "/companies/:id",
@@ -31,11 +43,11 @@ export const resources: IResourceItem[] = [
     },
   },
   {
-    name: "projects",
-    list: "/projects",
-    // show: "/projects/:id", // we won't have project id since we are going to show multiple projects
-    create: "/projects/new",
-    edit: "/projects/edit/:id",
+    name: "tasks",
+    list: "/tasks",
+    // show: "/tasks/:id", // we won't have project id since we are going to show multiple projects
+    create: "/tasks/new",
+    edit: "/tasks/edit/:id",
 
     meta: {
       label: "Projects",

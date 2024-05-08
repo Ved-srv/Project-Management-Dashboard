@@ -13,11 +13,10 @@ export const UPDATE_USER_MUTATION = gql`
       email
       phone
       jobTitle
+      role
     }
   }
 `;
-
-//Mutation to create new User - TBD
 
 // Mutation to create company
 export const CREATE_COMPANY_MUTATION = gql`
@@ -27,6 +26,24 @@ export const CREATE_COMPANY_MUTATION = gql`
       salesOwner {
         id
       }
+    }
+  }
+`;
+
+// mutation to add users
+export const ADD_USER_MUTATION = gql`
+  mutation CreateUser($input: CreateOneUserInput!) {
+    createOneUser(input: $input) {
+      id
+      name
+      email
+      phone
+      jobTitle
+      timezone
+      role
+      avatarUrl
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -97,44 +114,6 @@ export const UPDATE_TASK_MUTATION = gql`
       checklist {
         title
         checked
-      }
-    }
-  }
-`;
-
-// mutation to add users
-export const ADD_USER_MUTATION = gql`
-  mutation AddUsersFromCSV($file: Upload!) {
-    addUserFromCSV(file: $file) {
-      success
-      message
-      addedUsers {
-        id
-        name
-        email
-        # Any other relevant user fields you want to retrieve
-      }
-      failedUsers {
-        rowNumber
-        errorMessage
-        rowData {
-          # Include the data of the failed user upload for debugging or error reporting
-          name
-          email
-          # Include other fields as needed
-        }
-      }
-    }
-  }
-`;
-
-export const REGISTER_MUTATION = gql`
-  mutation Register($registerInput: RegisterInput!) {
-    register(registerInput: $registerInput) {
-      accessToken
-      user {
-        id
-        email
       }
     }
   }

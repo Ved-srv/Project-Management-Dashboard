@@ -1,6 +1,5 @@
 import { CalendarOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import { Badge, Card, Divider, List, Tooltip } from "antd";
+import { Badge, Card, List } from "antd";
 import { Text } from "../text";
 import UpcomingEventsSkeleton from "../skeleton/upcoming-events";
 import { getDate } from "@/utilities/helpers";
