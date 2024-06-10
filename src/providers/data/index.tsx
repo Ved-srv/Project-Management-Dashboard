@@ -14,7 +14,7 @@ export const API_BASE_URL = "https://api.crm.refine.dev";
 export const API_URL = `${API_BASE_URL}/graphql`; // the API url should be the graphql endpoint of the api base url, so use template string and append /graphql, so now this is our real graphql api endpoint.
 export const WS_URL = "wss://api.crm.refine.dev/graphql"; //web socket url.
 
-// graphql client which is going to make data requests from the graphql API
+// creating a graphql client which is going to make data requests from the graphql API
 export const client = new GraphQLClient(API_URL, {
   fetch: (url: string, options: RequestInit) => {
     try {

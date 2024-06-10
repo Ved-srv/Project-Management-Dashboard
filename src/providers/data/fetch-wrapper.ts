@@ -10,8 +10,9 @@ type Error = {
 // Creating our own custom fetch function which will be acting as a middleware, because it will be happening before or on top of every fetch request we make.
 const customFetch = async (url: string, options: RequestInit) => {
   const accessToken = localStorage.getItem("access_token");
-  const headers = options.headers as Record<string, string>;
+  const headers = options.headers as Record<string, string>; // getting the headers from the options object
   return await fetch(url, {
+    // return the fetch request with the authorization headers
     ...options,
     headers: {
       ...headers,
